@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-show="thing">
   <div class="col-lg-1">
     <img data-src="holder.js/80x80" alt="thumbnail" bs-holder>
   </div>
@@ -6,7 +6,7 @@
       <input id="name" type="text" class="form-control input-title" placeholder="Enter the name of this thing" ng-model="thing.name">
   </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
-<div class="row">
+<div class="row" ng-show="thing">
   <div class="col-lg-7">
     <div class="input-group">
       <input id="fields" type="text" class="form-control" placeholder="Enter a space separated list of fields" ng-model="fieldNames">
@@ -17,14 +17,16 @@
   </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 
-<div class="row">
+<div class="row" ng-show="thing">
   <div class="col-lg-7">
     <form role="form">
       <div class="form-group" ng-repeat="field in fields">
         <label for="{{field.name}}">{{field.label}}</label>
         <input type="{{field.type}}" class="form-control" id="{{field.name}}" ng-model="thing[field.name]">
       </div>
+      <a class="btn btn-default" href="#/things" ng-show="thing._rev">Cancel</a>
       <button type="submit" class="btn btn-success" ng-click="save()" ng-disabled="saving">Save</button>
+      <button type="submit" class="btn btn-primary" ng-click="save(true)" ng-disabled="saving">Save and create something else</button>
     </form>
 
     <div class="panel panel-default">

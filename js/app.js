@@ -5,6 +5,7 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl'])
           $routeProvider
               .when('/home', {controller: _home, templateUrl:'/views/home.html' })
               .when('/thing/:id', { controller: _thing, templateUrl:'/views/thing.html' })
+              .when('/things', { controller: _things, templateUrl:'/views/things.html' })
               .otherwise({redirectTo:'/home'});
 
           growlProvider.globalTimeToLive(5000);

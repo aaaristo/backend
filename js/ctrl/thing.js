@@ -10,7 +10,25 @@ function ($scope,$routeParams,$location,db,growl)
    });
 
    $scope.fields= [];
-   $scope.thing= { _id: $routeParams.id };
+
+   db.get($routeParams.id, function(err, thing)
+   { 
+        if (err)
+        {
+          if (err.status==404)
+            $scope.thing= { _id: $routeParams.id };
+          else
+            growl.addErrorMessage('woops, cannot read this thing: '+err.message);
+        }
+        else
+        {
+          $scope.thing= thing;
+          $scope.fieldNames= _.keys(_.omit($scope.thing,['_id','_rev','name'])).join(' ');
+          $scope.createFields();
+        }
+
+        $scope.$apply(); // altrimenti niente growl: @TODO: fix angular-pouchdb
+   });   
 
    $scope.createFields= function ()
    {
@@ -28,7 +46,7 @@ function ($scope,$routeParams,$location,db,growl)
       });
    };
 
-   $scope.save= function ()
+   $scope.save= function (selse)
    {
       $scope.saving= true;
 
@@ -42,7 +60,12 @@ function ($scope,$routeParams,$location,db,growl)
         else
         {
           growl.addSuccessMessage($scope.thing.name+' saved!');
-          $location.path('things');
+
+          if (selse)
+            $location.path('thing/'+UUIDjs.create(4));
+          else
+            $location.path('things');
+          
         }
 
         $scope.$apply(); // altrimenti niente growl: @TODO: fix angular-pouchdb
