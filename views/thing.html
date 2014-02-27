@@ -1,6 +1,9 @@
 <div class="row" ng-show="thing">
   <div class="col-lg-1">
-    <img data-src="holder.js/80x80" alt="thumbnail" bs-holder>
+    <span class="fileinput-button">
+       <img id="thumbnailimg" class="media-object" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{thing.thumbnail | nvl: '/img/80x80.gif'}}">
+       <input id="thumbnailfile" type="file" name="thumbnailfile">
+    </span>
   </div>
   <div class="col-lg-6">
       <input id="name" type="text" class="form-control input-title" placeholder="Enter the name of this thing" ng-model="thing.name">

@@ -11,13 +11,11 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl'])
           growlProvider.globalTimeToLive(5000);
           growlProvider.onlyUniqueMessages(false);
        }])
-       .directive('bsHolder',function ()
+       .filter('nvl', function()
        {
-          return {
-            link: function (scope, element, attrs) {
-                Holder.run({ images: element.get(0) });
-            }
-          };
+            return function(value, replacer) {
+              return value ? value : (replacer ? replacer : '...');
+            };
        })
        .factory('db', ['pouchdb',function(pouchdb) {
           return pouchdb.create('thingsdb');

@@ -5,14 +5,14 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-lg-2">
-            <img data-src="holder.js/80x80" alt="thumbnail" bs-holder>
+            <img alt="thumbnail" ng-src="{{thing.thumbnail | nvl: '/img/80x80.gif'}}" width="80" >
           </div>
           <div class="col-lg-6">
              <h2>{{thing.name}}</h2>
           </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
-        <button class="btn btn-danger" ng-click="remove(thing)" ng-disabled="thing.changing">Remove</button>
-        <a href="#/thing/{{thing._id}}" class="btn btn-info">Edit</a>
+        <button class="btn btn-danger" ng-click="remove(thing)" ng-disabled="thing.changing">Remove <span class="glyphicon glyphicon-trash"></span></button>
+        <a href="#/thing/{{thing._id}}" class="btn btn-info">Edit <span class="glyphicon glyphicon-edit"></span></a>
       </div>
     </div>
     <div class="alert alert-info" ng-show="things&&!things.length">

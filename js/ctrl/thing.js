@@ -23,7 +23,7 @@ function ($scope,$routeParams,$location,db,growl)
         else
         {
           $scope.thing= thing;
-          $scope.fieldNames= _.keys(_.omit($scope.thing,['_id','_rev','name'])).join(' ');
+          $scope.fieldNames= _.keys(_.omit($scope.thing,['_id','_rev','name','thumbnail'])).join(' ');
           $scope.createFields();
         }
 
@@ -72,4 +72,27 @@ function ($scope,$routeParams,$location,db,growl)
       });
 
    };
+
+   $('#thumbnailfile').change(function (e)
+   {
+      var fileInput= $(this)[0],
+          file = fileInput.files[0];
+
+      if (file.type.match(/image.*/))
+      {
+         var reader = new FileReader();
+         
+         reader.onload = function(e)
+         {
+             $('#thumbnailimg').attr('src',$scope.thing.thumbnail= reader.result);
+             $scope.$apply();
+         }
+
+         reader.readAsDataURL(file);
+      }
+      else
+         growl.addErrorMessage('woops, this does not looks like an image!');
+
+      $scope.$apply();
+   });
 }];
