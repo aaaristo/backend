@@ -24,7 +24,7 @@
         <label for="{{field.name}}">{{field.label}}</label>
         <input type="{{field.type}}" class="form-control" id="{{field.name}}" ng-model="thing[field.name]">
       </div>
-      <button type="submit" class="btn btn-success" ng-click="save()">Save</button>
+      <button type="submit" class="btn btn-success" ng-click="save()" ng-disabled="saving">Save</button>
     </form>
 
     <div class="panel panel-default">

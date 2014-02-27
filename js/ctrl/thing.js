@@ -30,9 +30,13 @@ function ($scope,$routeParams,$location,db,growl)
 
    $scope.save= function ()
    {
+      $scope.saving= true;
+
       db.put($scope.thing,
       function (err, response)
       {
+        $scope.saving= false;
+
         if (err)
           growl.addErrorMessage('woops, cannot save this thing: '+err.message);
         else
@@ -40,6 +44,9 @@ function ($scope,$routeParams,$location,db,growl)
           growl.addSuccessMessage($scope.thing.name+' saved!');
           $location.path('things');
         }
+
+        $scope.$apply(); // altrimenti niente growl: @TODO: fix angular-pouchdb
       });
+
    };
 }];
