@@ -30,6 +30,11 @@ function ($scope,$routeParams,$location,db,growl)
         $scope.$apply(); // altrimenti niente growl: @TODO: fix angular-pouchdb
    });   
 
+   $scope.output= function ()
+   {
+      return _.omit($scope.thing,['thumbnail']);
+   };
+
    $scope.readFieldNames= function ()
    {
       $scope.fieldNames= _.keys(_.omit($scope.thing,['_id','_rev','name','thumbnail'])).join(' ');
@@ -94,6 +99,14 @@ function ($scope,$routeParams,$location,db,growl)
         return !!val[0]._file;
       else
         return val&&!!val._file;
+   };
+
+   var fieldTemplate= function (field)
+   {
+      if (isFile($scope.thing[field.name]))
+        return '/views/fields/file.html';
+      else
+        return '/views/fields/text.html';
    };
 
    $scope.values= function (x)

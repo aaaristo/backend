@@ -25,94 +25,7 @@
     <form role="form">
       <div class="form-group" ng-repeat="field in fields">
         <label for="{{field.name}}">{{field.label}}</label>
-        <div class="input-group" ng-hide="isArray(thing[field.name])||isFile(thing[field.name])">
-          <input type="{{field.type}}" class="form-control" id="{{field.name}}" ng-model="thing[field.name]">
-          <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action... <span class="caret"></span></button>
-            <ul class="dropdown-menu pull-right">
-              <li><a ng-click="addValue(field)">Add value...</a></li>
-              <li><a ng-click="rmValue(field)">Remove value...</a></li>
-              <li class="divider"></li>
-              <li><a>Attach...</a><input class="attach-file" type="file" name="{{field.name}}_attach" data-field-name="{{field.name}}" multiple></li>
-              <li class="divider"></li>
-              <li><a href="#">Text</a></li>
-              <li><a href="#">Number</a></li>
-              <li><a href="#">Date</a></li>
-              <li><a href="#">Embedded thing</a></li>
-              <li><a href="#">Thing</a></li>
-              <li><a href="#">Markdown</a></li>
-              <li><a href="#">Image</a></li>
-              <li><a href="#">Video</a></li>
-              <li><a href="#">File</a></li>
-              <li class="divider"></li>
-              <li><a href="#">List</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Somenthing new...</a></li>
-            </ul>
-          </div><!-- /btn-group -->
-        </div><!-- /input-group -->
-
-        <div class="row" ng-repeat="file in values(thing[field.name])" ng-show="isFile(thing[field.name])">
-          <div class="col-lg-2">
-            <span class="fileinput-button">
-               <img class="media-object" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{file.thumbnail | nvl: '/img/80x80.gif'}}">
-            </span>
-          </div>
-          <div class="col-lg-10">
-            <div class="input-group">
-              <input type="{{field.type}}" class="form-control" ng-model="file.name">
-              <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action... <span class="caret"></span></button>
-                <ul class="dropdown-menu pull-right">
-                  <li><a ng-click="addValue(field)">Add value...</a></li>
-                  <li><a ng-click="rmValue(field,$index)">Remove value...</a></li>
-                  <li class="divider"></li>
-                  <li><a>Attach...</a><input class="attach-file" type="file" name="{{field.name}}_attach" data-field-name="{{field.name}}" data-index="{{$index}}" multiple></li>
-                  <li><a href="{{fileData(file)}}" download="{{file.name}}">Download...</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Text</a></li>
-                  <li><a href="#">Number</a></li>
-                  <li><a href="#">Date</a></li>
-                  <li><a href="#">Embedded thing</a></li>
-                  <li><a href="#">Thing</a></li>
-                  <li><a href="#">Markdown</a></li>
-                  <li><a href="#">Image</a></li>
-                  <li><a href="#">Video</a></li>
-                  <li><a href="#">File</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">List</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Somenthing new...</a></li>
-                </ul>
-              </div><!-- /btn-group -->
-            </div><!-- /input-group -->
-          </div><!-- /.col-lg-6 -->
-        </div><!-- /.row -->
-        
-        <div class="input-group" ng-show="isArray(thing[field.name])&&!isFile(thing[field.name])" ng-repeat="value in thing[field.name] track by trackValue(field,$index)">
-          <input type="{{field.type}}" class="form-control" id="{{field.name}}{{$index}}" ng-model="thing[field.name][$index]">
-          <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action... <span class="caret"></span></button>
-            <ul class="dropdown-menu pull-right">
-              <li><a ng-click="addValue(field)">Add value...</a></li>
-              <li><a ng-click="rmValue(field,$index)">Remove value...</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Text</a></li>
-              <li><a href="#">Number</a></li>
-              <li><a href="#">Date</a></li>
-              <li><a href="#">Embedded thing</a></li>
-              <li><a href="#">Thing</a></li>
-              <li><a href="#">Markdown</a></li>
-              <li><a href="#">Image</a></li>
-              <li><a href="#">Video</a></li>
-              <li><a href="#">File</a></li>
-              <li class="divider"></li>
-              <li><a href="#">List</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Somenthing new...</a></li>
-            </ul>
-          </div><!-- /btn-group -->
-        </div><!-- /input-group -->
+        <div ng-include="fieldTemplate(field)"></div>        
       </div>
       <a class="btn btn-default" href="#/things" ng-show="thing._rev">Cancel</a>
       <button type="submit" class="btn btn-success" ng-click="save()" ng-disabled="saving">Save</button>
@@ -121,7 +34,7 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
-        <pre>{{ thing | json }}</pre>
+        <pre>{{ output(thing) | json }}</pre>
       </div>
     </div>
   </div>
