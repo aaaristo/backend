@@ -1,8 +1,8 @@
 <li><a ng-click="addValue(field)">Add value...</a></li>
-<li><a ng-click="rmValue(field)">Remove value...</a></li>
+<li><a ng-click="rmValue(field,$index)">Remove value...</a></li>
 <li class="divider"></li>
-<li><a>Upload...</a><input class="attach-file" type="file" name="{{field.name}}_attach" data-field-name="{{field.name}}" multiple></li>
-<li><a href="{{fileData(file)}}" download="{{file.name}}">Download...</a></li>
+<li><a>Upload...</a><input class="attach-file" type="file" name="{{field.name}}_attach" data-field-name="{{field.name}}" data-index="{{$index}}" multiple></li>
+<li><a href="{{fileData(file)}}" download="{{file.name}}" ng-show="values(thing[field.name])[$index].size">Download...</a></li>
 <li class="divider"></li>
 <li><a href="#">Text</a></li>
 <li><a href="#">Number</a></li>

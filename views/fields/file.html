@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="file in values(thing[field.name]) tryck by trackValues(field,$index)">
+<div class="row" ng-repeat="file in values(thing[field.name]) track by trackValue(field,$index)">
   <div class="col-lg-2">
     <span class="fileinput-button">
        <img class="media-object" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{file.thumbnail | nvl: '/img/80x80.gif'}}">

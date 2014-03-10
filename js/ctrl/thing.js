@@ -96,12 +96,18 @@ function ($scope,$routeParams,$location,db,growl)
    var isFile= $scope.isFile= function (val)
    {
       if (isArray(val)&&val.length)
-        return !!val[0]._file;
+        return isFile(val[0]);
       else
-        return val&&!!val._file;
+      if (val&&typeof val=='object')
+      {
+        var keys= _.keys(val);
+        return _.difference(['name','type','size'],keys).length==0;
+      }
+      else
+        return false;
    };
 
-   var fieldTemplate= function (field)
+   $scope.fieldTemplate= function (field)
    {
       if (isFile($scope.thing[field.name]))
         return '/views/fields/file.html';
@@ -174,7 +180,7 @@ function ($scope,$routeParams,$location,db,growl)
        var $this= $(this), fileInput= $this[0],
            tofile= function (x)
            {
-              return _.extend(_.pick(x,['name','type','size']), { _file: true });
+              return x;//_.extend(_.pick(x,['name','type','size']), { _file: true });
            };
 
        if (isArray($scope.thing[$this.data('field-name')]))
