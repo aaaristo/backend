@@ -180,7 +180,19 @@ function ($scope,$routeParams,$location,db,growl)
        var $this= $(this), fileInput= $this[0],
            tofile= function (x)
            {
-              return x;//_.extend(_.pick(x,['name','type','size']), { _file: true });
+              var f= _.pick(x,['name','type','size']),
+                  reader = new FileReader();
+                 
+              reader.onload = function(e)
+              {
+                  f.url= reader.result;
+                  console.log(f.url);
+                  $scope.$apply();
+              };
+
+              reader.readAsDataURL(x);
+
+              return f;
            };
 
        if (isArray($scope.thing[$this.data('field-name')]))
