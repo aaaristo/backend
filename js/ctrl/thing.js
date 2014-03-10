@@ -23,12 +23,17 @@ function ($scope,$routeParams,$location,db,growl)
         else
         {
           $scope.thing= thing;
-          $scope.fieldNames= _.keys(_.omit($scope.thing,['_id','_rev','name','thumbnail'])).join(' ');
+          $scope.readFieldNames();
           $scope.createFields();
         }
 
         $scope.$apply(); // altrimenti niente growl: @TODO: fix angular-pouchdb
    });   
+
+   $scope.readFieldNames= function ()
+   {
+      $scope.fieldNames= _.keys(_.omit($scope.thing,['_id','_rev','name','thumbnail'])).join(' ');
+   };
 
    $scope.createFields= function ()
    {
@@ -88,7 +93,7 @@ function ($scope,$routeParams,$location,db,growl)
       if (isArray(val)&&val.length)
         return !!val[0]._file;
       else
-        return !!val._file;
+        return val&&!!val._file;
    };
 
    $scope.values= function (x)
@@ -112,10 +117,20 @@ function ($scope,$routeParams,$location,db,growl)
    $scope.rmValue= function (field,$index)
    {
       var val= $scope.thing[field.name];
-      val.splice($index,1);
 
-      if (val.length==1) // siamo sicuri?
-        $scope.thing[field.name]= val[0]; 
+      if (val.splice)
+      {
+          val.splice($index,1);
+
+          if (val.length==1) // siamo sicuri?
+            $scope.thing[field.name]= val[0]; 
+      }
+      else
+      {
+          $scope.thing= _.omit($scope.thing,[field.name]); 
+          $scope.readFieldNames();
+          $scope.createFields();
+      }
    };
 
    $('#thumbnailfile').change(function (e)
@@ -149,10 +164,25 @@ function ($scope,$routeParams,$location,db,growl)
               return _.extend(_.pick(x,['name','type','size']), { _file: true });
            };
 
-       if (fileInput.files.length==1)
-         $scope.thing[$this.data('field-name')]= tofile(fileInput.files[0]);
+       if (isArray($scope.thing[$this.data('field-name')]))
+       {
+           if (fileInput.files.length==1)
+             $scope.thing[$this.data('field-name')][$this.data('index')]= tofile(fileInput.files[0]);
+           else
+           {
+             var args= [$this.data('index'),1];
+             args.push.apply(args,_.collect(fileInput.files,tofile));
+             var val= $scope.thing[$this.data('field-name')];
+             val.splice.apply(val,args);
+           }
+       }
        else
-         $scope.thing[$this.data('field-name')]= _.collect(fileInput.files,tofile);
+       {
+           if (fileInput.files.length==1)
+             $scope.thing[$this.data('field-name')]= tofile(fileInput.files[0]);
+           else
+             $scope.thing[$this.data('field-name')]= _.collect(fileInput.files,tofile);
+       }
 
        $scope.$apply();
    });
