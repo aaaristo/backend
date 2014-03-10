@@ -73,6 +73,51 @@ function ($scope,$routeParams,$location,db,growl)
 
    };
 
+   $scope.trackValue= function (field,$index)
+   {
+      return field.name+'-'+$index;
+   };
+
+   var isArray= $scope.isArray= function (val)
+   {
+      return Array.isArray(val);
+   };
+
+   var isFile= $scope.isFile= function (val)
+   {
+      if (isArray(val)&&val.length)
+        return !!val[0]._file;
+      else
+        return !!val._file;
+   };
+
+   $scope.values= function (x)
+   {
+       if (isArray(x))
+         return x;
+       else
+         return [x];
+   };
+
+   $scope.addValue= function (field)
+   {
+      var val= $scope.thing[field.name];
+
+      if ($scope.isArray(val))
+        val.push('');     
+      else
+        $scope.thing[field.name]= [val,''];
+   };
+
+   $scope.rmValue= function (field,$index)
+   {
+      var val= $scope.thing[field.name];
+      val.splice($index,1);
+
+      if (val.length==1) // siamo sicuri?
+        $scope.thing[field.name]= val[0]; 
+   };
+
    $('#thumbnailfile').change(function (e)
    {
       var fileInput= $(this)[0],
@@ -94,5 +139,21 @@ function ($scope,$routeParams,$location,db,growl)
          growl.addErrorMessage('woops, this does not looks like an image!');
 
       $scope.$apply();
+   });
+
+   $('form').on('change','.attach-file',function (e)
+   {
+       var $this= $(this), fileInput= $this[0],
+           tofile= function (x)
+           {
+              return _.extend(_.pick(x,['name','type','size']), { _file: true });
+           };
+
+       if (fileInput.files.length==1)
+         $scope.thing[$this.data('field-name')]= tofile(fileInput.files[0]);
+       else
+         $scope.thing[$this.data('field-name')]= _.collect(fileInput.files,tofile);
+
+       $scope.$apply();
    });
 }];

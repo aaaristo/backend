@@ -51,6 +51,25 @@
         direction: ltr;
         cursor: pointer;
         }
+        .attach-file {
+        width: 119px;
+        left: 0px;
+        height: 20px;
+        top: 33px;
+        position: absolute;
+        margin: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        transform: translate(-300px, 0) scale(4);
+        font-size: 23px;
+        padding-right: 20px;
+        direction: ltr;
+        cursor: pointer;
+        }
+        .col-lg-10 .attach-file {
+        left: 20px;
+        top: 10px;
+        }
     </style>
   </head>
   <body ng-app="backend">
@@ -96,6 +115,7 @@
     <script src="/lib/angular-pouchdb/angular-pouchdb.js"></script>
     <script src="/lib/angular-route/angular-route.min.js"></script>
     <script src="/lib/angular-growl/build/angular-growl.min.js"></script>
+    <script src="/lib/async/lib/async.js"></script>
     <script src="/js/ctrl/home.js"></script>
     <script src="/js/ctrl/thing.js"></script>
     <script src="/js/ctrl/things.js"></script>
