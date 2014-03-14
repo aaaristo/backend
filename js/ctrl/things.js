@@ -1,6 +1,8 @@
 var _things= ['$scope','$routeParams','$location','db','growl',
 function ($scope,$routeParams,$location,db,growl)
 {
+    $scope.things= [];
+
     var load= function (opts)
         {
             opts= opts || {};

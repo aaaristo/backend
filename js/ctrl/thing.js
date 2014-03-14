@@ -88,13 +88,6 @@ function ($scope,$routeParams,$location,db,growl)
       return field.name+'-'+$index;
    };
 
-
-   db.allDocs({ include_docs: true, descending: false },
-   function(err, doc)
-   {
-      $scope.things= _.pluck(doc.rows,'doc');
-   });
-
    var isArray= $scope.isArray= function (val)
    {
       return Array.isArray(val);

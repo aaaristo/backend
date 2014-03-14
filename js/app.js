@@ -20,4 +20,48 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','u
        })
        .factory('db', ['pouchdb',function(pouchdb) {
           return pouchdb.create('thingsdb');
+       }])
+       .run(['$rootScope','$location','db',function($rootScope,$location,db) {
+          db.allDocs({ include_docs: true, descending: false },
+          function(err, doc)
+          {
+              var $apply= _.debounce(function () { $rootScope.$apply(); },100);
+              $rootScope.things= _.pluck(doc.rows,'doc');
+              $apply();
+
+              db.changes
+              ({ include_docs: true, 
+                 continuous: true,
+                 onChange: function (change)
+                 {
+                     if (change.deleted)
+                       $rootScope.things= _.without($rootScope.things,_.findWhere($rootScope.things,{ _id: change.id }));
+                     else
+                     {
+                        var val= _.findWhere($rootScope.things,{ _id: change.id });
+ 
+                        if (val)
+                        {
+                           var idx= _.indexOf($rootScope.things, val);
+                           $rootScope.things[idx]= change.doc;
+                        }
+                        else
+                          $rootScope.things.push(change.doc);
+                     }
+
+                     console.log('db change',change);
+                     $apply();
+                 }
+              });
+          });
+
+          $rootScope.$watch('search',function (search)
+          {
+              if (search&&search._id) 
+              {
+                $location.path('thing/'+search._id);
+                $rootScope.search= '';
+              }
+          });
+
        }]);
