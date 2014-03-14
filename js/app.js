@@ -1,3 +1,5 @@
+var EXTENSIONS= ['avi','bmp','css','doc','gif','html','ico','jpg','js','mov','mp3','mp4','pdf','xls','xlsx','zip'];
+
 angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','ui.bootstrap.typeahead','ui'])
        .config(['$routeProvider','growlProvider','$compileProvider',
        function ($routeProvider,growlProvider,$compileProvider)
@@ -16,6 +18,25 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','u
        {
             return function(value, replacer) {
               return value ? value : (replacer ? replacer : '...');
+            };
+       })
+       .filter('thumbnail', function()
+       {
+            var thumbnail= function (file)
+                {
+                    var ext;
+
+                    if (file.type.match(/image.*/))
+                      return file.url;
+                    else
+                    if (_.contains(EXTENSIONS,ext=file.name.split('.').pop()))
+                      return '/img/ext/'+ext+'.png';
+                    else
+                      return '/img/ext/blank.png';
+                };
+
+            return function(value, replacer) {
+              return value&&value.type ? thumbnail(value) : (replacer ? replacer : '...');
             };
        })
        .factory('db', ['pouchdb',function(pouchdb) {
