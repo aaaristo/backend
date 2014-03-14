@@ -42,7 +42,7 @@ function ($scope,$routeParams,$location,db,growl)
 
    $scope.createFields= function ()
    {
-      var fields= $scope.fieldNames.split(/\s+/);
+      var fields= _.without($scope.fieldNames.split(/\s+/),'');
 
       $scope.fields= _.filter($scope.fields,function (f) { return _.contains(fields,f.name); });
 
@@ -50,7 +50,7 @@ function ($scope,$routeParams,$location,db,growl)
       {
           if (!_.contains(_.pluck($scope.fields,'name'),name))
             $scope.fields.push({ name: name,
-                                 type: 'text',
+                                 type: fieldType(name),
                                 label: name.substring(0,1).toUpperCase()
                                       +name.substring(1).toLowerCase() });
       });
@@ -88,6 +88,13 @@ function ($scope,$routeParams,$location,db,growl)
       return field.name+'-'+$index;
    };
 
+
+   db.allDocs({ include_docs: true, descending: false },
+   function(err, doc)
+   {
+      $scope.things= _.pluck(doc.rows,'doc');
+   });
+
    var isArray= $scope.isArray= function (val)
    {
       return Array.isArray(val);
@@ -107,12 +114,52 @@ function ($scope,$routeParams,$location,db,growl)
         return false;
    };
 
+   var isThing= $scope.isThing= function (val)
+   {
+      if (isArray(val)&&val.length)
+        return isThing(val[0]);
+      else
+      if (val&&typeof val=='object')
+      {
+        var keys= _.keys(val);
+        return _.difference(['_id','_rev'],keys).length==0;
+      }
+      else
+        return false;
+   };
+
+   var empty= $scope.empty= function (field)
+   {
+      var val= $scope.thing[field.name];
+
+      if (isThing(val))
+        return { _id: '', _rev: '', name: '' };
+      else
+        return '';
+   };
+
    $scope.fieldTemplate= function (field)
    {
-      if (isFile($scope.thing[field.name]))
+      if (isFile($scope.thing[field.name])||field.type=='file')
         return '/views/fields/file.html';
       else
+      if (isThing($scope.thing[field.name])||field.type=='thing')
+        return '/views/fields/thing.html';
+      else
         return '/views/fields/text.html';
+   };
+
+   var fieldType= $scope.fieldType= function (name)
+   {
+      var val= $scope.thing[name];
+
+      if (isFile(val))
+        return 'file';
+      else
+      if (isThing(val))
+        return 'thing';
+      else
+        return 'text';
    };
 
    $scope.values= function (x)
@@ -127,10 +174,10 @@ function ($scope,$routeParams,$location,db,growl)
    {
       var val= $scope.thing[field.name];
 
-      if ($scope.isArray(val))
-        val.push('');     
+      if (isArray(val))
+        val.push(empty(field));     
       else
-        $scope.thing[field.name]= [val,''];
+        $scope.thing[field.name]= [val,empty(field)];
    };
 
    $scope.rmValue= function (field,$index)
@@ -151,6 +198,12 @@ function ($scope,$routeParams,$location,db,growl)
           $scope.createFields();
       }
    };
+
+   $scope.toThing= function (field)
+   {
+      field.type= 'thing';
+   };
+
 
    $('#thumbnailfile').change(function (e)
    {

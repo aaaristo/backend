@@ -1,4 +1,4 @@
-angular.module('backend', ['ngRoute','pouchdb','angular-growl'])
+angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','ui.bootstrap.typeahead'])
        .config(['$routeProvider','growlProvider','$compileProvider',
        function ($routeProvider,growlProvider,$compileProvider)
        {

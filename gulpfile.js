@@ -25,7 +25,7 @@ var createServers = function(port, lrport) {
 var servers = createServers(8080, 35729);
  
 gulp.task('default', function(){
-  gulp.watch(["./**/*", "!./node_modules/**/*"], function(evt){
+  gulp.watch(["./**/*", "!./node_modules/**/*", "!./lib/**/*"], function(evt){
     gutil.log(gutil.colors.cyan(evt.path), 'changed');
     servers.lr.changed({
       body: {
