@@ -85,4 +85,9 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','u
               }
           });
 
+          $rootScope.active= function (path)
+          {
+             return $location.path()==path;
+          }
+
        }]);

@@ -32,13 +32,12 @@
           </button>
           <a class="navbar-brand" href="#">Backend</a>
         </div>
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" style="overflow-y: visible;">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#/things">Things</a></li>
-            <li><a href="#/types">Types</a></li>
+            <li ng-class="{ active: active('/home') }"><a href="#">Home</a></li>
+            <li ng-class="{ active: active('/things') }"><a href="#/things">Things</a></li>
             <li>
-                <div class="input-group" style="width: 200px; margin-top: 8px;">
+                <div class="input-group" style="width: 300px; margin-left: 10px; margin-top: 8px;">
                   <input type="{{field.type}}" class="form-control" id="{{field.name}}" ng-model="search" typeahead="thing as thing.name for thing in things | filter:$viewValue" placeholder="search...">
                   <span class="input-group-addon glyphicon glyphicon-search" style="top: 0px"></span>
                 </div><!-- /input-group -->
