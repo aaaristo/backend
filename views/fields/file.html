@@ -1,7 +1,7 @@
-<div class="row" ng-repeat="file in values(thing[field.name]) track by trackValue(field,$index)">
+<div ng-repeat="file in values(thing[field.name]) track by trackValue(field,$index)" ng-class="{ 'row': true, 'array': isArray(thing[field.name]) }">
   <div class="col-lg-2">
     <span class="fileinput-button">
-       <img class="media-object" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{file | thumbnail:'/img/80x80.gif'}}">
+       <img class="media-object sortable-handle" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{file | thumbnail:'/img/80x80.gif'}}">
     </span>
   </div>
   <div class="col-lg-10">

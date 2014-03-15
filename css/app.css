@@ -124,3 +124,7 @@ span.twitter-typeahead { width: 100%; }
         margin-top: 0px;
         
     }
+
+    .ui-sortable .array .sortable-handle {
+        cursor: move;
+    }

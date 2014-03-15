@@ -1,5 +1,5 @@
-<div class="input-group" ng-repeat="value in values(thing[field.name]) track by trackValue(field,$index)">
-  <span class="input-group-addon glyphicon glyphicon-screenshot" style="top: 0px" ng-show="isArray(thing[field.name])"></span>
+<div ng-repeat="value in values(thing[field.name]) track by trackValue(field,$index)" ng-class="{ 'input-group': true, 'array': isArray(thing[field.name]) }">
+  <span class="input-group-addon glyphicon glyphicon-screenshot sortable-handle" style="top: 0px" ng-show="isArray(thing[field.name])"></span>
   <input type="{{field.type}}" class="form-control" id="{{field.name}}" ng-model="thing[field.name]" ng-hide="isArray(thing[field.name])">
   <input type="{{field.type}}" class="form-control" id="{{field.name}}-{{$index}}" ng-model="thing[field.name][$index]" ng-show="isArray(thing[field.name])">
   <div class="input-group-btn">
