@@ -14,5 +14,6 @@ architecture.
 
 <pre>
 $ git clone git://github.com/aaaristo/backend.git
+$ npm install
 $ gulp
 </pre>
