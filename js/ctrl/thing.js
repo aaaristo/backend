@@ -141,7 +141,20 @@ function ($scope,$routeParams,$location,$sce,db,growl)
       else
       if (val&&typeof val=='string')
       {
-        return !isNaN((new Date(val)).getSeconds());
+        return val.indexOf('-')>0&&!isNaN((new Date(val)).getSeconds());
+      }
+      else
+        return false;
+   };
+
+   var isNumber= $scope.isNumber= function (val)
+   {
+      if (isArray(val)&&val.length)
+        return isNumber(val[0]);
+      else
+      if (val)
+      {
+        return typeof val=='number';
       }
       else
         return false;
@@ -171,6 +184,9 @@ function ($scope,$routeParams,$location,$sce,db,growl)
       if (isDate($scope.thing[field.name])||field.type=='date')
         return '/views/fields/date.html';
       else
+      if (isNumber($scope.thing[field.name])||field.type=='number')
+        return '/views/fields/number.html';
+      else
         return '/views/fields/text.html';
    };
 
@@ -189,6 +205,9 @@ function ($scope,$routeParams,$location,$sce,db,growl)
       else
       if (isDate(val))
         return 'date';
+      else
+      if (isNumber(val))
+        return 'number';
       else
         return 'text';
    };
@@ -248,11 +267,31 @@ function ($scope,$routeParams,$location,$sce,db,growl)
    $scope.toNumber= function (field)
    {
       field.type= 'number';
+
+      var val= $scope.thing[field.name];
+
+      if (isArray(val))
+        val.forEach(function (v,i)
+        {
+          val[i]= +v;
+        });
+      else
+        $scope.thing[field.name]= +val;
    };
 
    $scope.toText= function (field)
    {
       field.type= 'text';
+
+      var val= $scope.thing[field.name];
+
+      if (isArray(val))
+        val.forEach(function (v,i)
+        {
+          val[i]= ''+v;
+        });
+      else
+        $scope.thing[field.name]= ''+val;
    };
 
    $scope.md2HTML= function (val)
