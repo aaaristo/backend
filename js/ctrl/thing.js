@@ -1,5 +1,5 @@
-var _thing= ['$scope','$routeParams','$location','db','growl',
-function ($scope,$routeParams,$location,db,growl)
+var _thing= ['$scope','$routeParams','$location','$sce','db','growl',
+function ($scope,$routeParams,$location,$sce,db,growl)
 {
    $('#name').focus(); 
 
@@ -121,6 +121,19 @@ function ($scope,$routeParams,$location,db,growl)
         return false;
    };
 
+   var isMarkdown= $scope.isMarkdown= function (val)
+   {
+      if (isArray(val)&&val.length)
+        return isMarkdown(val[0]);
+      else
+      if (val&&typeof val=='string')
+      {
+        return val.indexOf('\n')>-1||markdown.toHTML(val)!='<p>'+val+'</p>';
+      }
+      else
+        return false;
+   };
+
    var empty= $scope.empty= function (field)
    {
       var val= $scope.thing[field.name];
@@ -139,6 +152,9 @@ function ($scope,$routeParams,$location,db,growl)
       if (isThing($scope.thing[field.name])||field.type=='thing')
         return '/views/fields/thing.html';
       else
+      if (isMarkdown($scope.thing[field.name])||field.type=='markdown')
+        return '/views/fields/markdown.html';
+      else
         return '/views/fields/text.html';
    };
 
@@ -151,6 +167,9 @@ function ($scope,$routeParams,$location,db,growl)
       else
       if (isThing(val))
         return 'thing';
+      else
+      if (isMarkdown(val))
+        return 'markdown';
       else
         return 'text';
    };
@@ -197,6 +216,15 @@ function ($scope,$routeParams,$location,db,growl)
       field.type= 'thing';
    };
 
+   $scope.toMarkdown= function (field)
+   {
+      field.type= 'markdown';
+   };
+
+   $scope.md2HTML= function (val)
+   {
+      return $sce.trustAsHtml(markdown.toHTML(val));
+   };
 
    $('#thumbnailfile').change(function (e)
    {

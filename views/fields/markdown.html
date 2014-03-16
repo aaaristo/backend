@@ -1,0 +1,15 @@
+<div ng-repeat="value in values(thing[field.name]) track by trackValue(field,$index)" ng-class="{ 'row': true, 'array': isArray(thing[field.name]) }">
+  <div class="col-xs-10">
+  <textarea class="form-control" id="{{field.name}}" ng-model="thing[field.name]" ng-hide="isArray(thing[field.name])"></textarea>
+  <div ng-bind-html="md2HTML(thing[field.name])" ng-hide="isArray(thing[field.name])"></div>
+  <textarea class="form-control" id="{{field.name}}-{{$index}}" ng-model="thing[field.name][$index]" ng-show="isArray(thing[field.name])"></textarea>
+  <div ng-bind-html="md2HTML(thing[field.name][$index])" ng-show="isArray(thing[field.name])"></div>
+  </div>
+  <div class="col-xs-2">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action... <span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right" ng-include="'/views/fields/menu.html'">
+        </ul>
+      </div>
+  </div>
+</div>
