@@ -6,6 +6,9 @@ This is just a demo to explore how a general purpose backend
 should look like after HTML5 and AngularJS. It uses PouchDB,
 for storage. 
 
+Backand as in "Drupal backend" not as a database in a three-tier
+architecture.
+
 
 ## Playing around
 
