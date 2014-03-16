@@ -134,6 +134,19 @@ function ($scope,$routeParams,$location,$sce,db,growl)
         return false;
    };
 
+   var isDate= $scope.isDate= function (val)
+   {
+      if (isArray(val)&&val.length)
+        return isDate(val[0]);
+      else
+      if (val&&typeof val=='string')
+      {
+        return !isNaN((new Date(val)).getSeconds());
+      }
+      else
+        return false;
+   };
+
    var empty= $scope.empty= function (field)
    {
       var val= $scope.thing[field.name];
@@ -155,6 +168,9 @@ function ($scope,$routeParams,$location,$sce,db,growl)
       if (isMarkdown($scope.thing[field.name])||field.type=='markdown')
         return '/views/fields/markdown.html';
       else
+      if (isDate($scope.thing[field.name])||field.type=='date')
+        return '/views/fields/date.html';
+      else
         return '/views/fields/text.html';
    };
 
@@ -170,6 +186,9 @@ function ($scope,$routeParams,$location,$sce,db,growl)
       else
       if (isMarkdown(val))
         return 'markdown';
+      else
+      if (isDate(val))
+        return 'date';
       else
         return 'text';
    };
@@ -219,6 +238,21 @@ function ($scope,$routeParams,$location,$sce,db,growl)
    $scope.toMarkdown= function (field)
    {
       field.type= 'markdown';
+   };
+
+   $scope.toDate= function (field)
+   {
+      field.type= 'date';
+   };
+
+   $scope.toNumber= function (field)
+   {
+      field.type= 'number';
+   };
+
+   $scope.toText= function (field)
+   {
+      field.type= 'text';
    };
 
    $scope.md2HTML= function (val)
