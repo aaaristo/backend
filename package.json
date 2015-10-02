@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "description": "A general purpose JSON data entry web application template.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "express": "~3.4.8",
+    "gulp": "~3.5.2",
+    "gulp-util": "~2.2.14",
+    "tiny-lr": "~0.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aaaristo/backend.git"
+  },
+  "keywords": [
+    "json",
+    "graph",
+    "ui"
+  ],
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/aaaristo/backend/issues"
+  }
+}

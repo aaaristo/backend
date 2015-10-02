@@ -1,0 +1,14 @@
+<li><a ng-click="addValue(field)">Add value...</a></li>
+<li><a ng-click="rmValue(field,$index)">Remove value...</a></li>
+<li class="divider"></li>
+<li><a>Upload...</a><input class="attach-file" type="file" name="{{field.name}}_attach" data-field-name="{{field.name}}" data-index="{{$index}}" multiple></li>
+<li><a href="{{file.url}}" download="{{file.name}}" ng-show="file.url">Download...</a></li>
+<li class="divider"></li>
+<li><a ng-click="toText(field)">Text</a></li>
+<li><a ng-click="toNumber(field)">Number</a></li>
+<li><a ng-click="toDate(field)">Date</a></li>
+<li><a ng-click="toMarkdown(field)">Markdown</a></li>
+<li class="divider"></li>
+<li><a ng-click="toThing(field)">Somenthing else</a></li>
+<li><a href="#">Somenthing new...</a></li>
+<li><a href="#">Embedded thing</a></li>

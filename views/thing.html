@@ -1,0 +1,42 @@
+<div class="row" ng-show="thing">
+  <div class="col-lg-1">
+    <span class="fileinput-button">
+       <img id="thumbnailimg" class="media-object" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{thing.thumbnail | nvl: '/img/80x80.gif'}}">
+       <input id="thumbnailfile" type="file" name="thumbnailfile">
+    </span>
+  </div>
+  <div class="col-lg-6">
+      <input id="name" type="text" class="form-control input-title" placeholder="Enter the name of this thing" ng-model="thing.name">
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+<div class="row" ng-show="thing">
+  <div class="col-lg-7">
+    <div class="input-group">
+      <input id="fields" type="text" class="form-control" placeholder="Enter a space separated list of fields" ng-model="fieldNames">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="createFields()">Create!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+
+<div class="row" ng-show="thing">
+  <div class="col-lg-7">
+    <form role="form">
+      <div class="form-group" ng-repeat="field in fields">
+        <label for="{{field.name}}">{{field.label}}</label>
+        <div ng-include="fieldTemplate(field)" ui-sortable ng-model="thing[field.name]"></div>        
+      </div>
+      <a class="btn btn-default" href="#/things" ng-show="thing._rev">Cancel</a>
+      <button type="submit" class="btn btn-success" ng-click="save()" ng-disabled="saving">Save</button>
+      <button type="submit" class="btn btn-primary" ng-click="save(true)" ng-disabled="saving">Save and create something else</button>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <pre>{{ output(thing) | json }}</pre>
+      </div>
+    </div>
+
+  </div>
+</div>

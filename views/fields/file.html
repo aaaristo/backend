@@ -1,0 +1,17 @@
+<div ng-repeat="file in values(thing[field.name]) track by trackValue(field,$index)" ng-class="{ 'row': true, 'array': isArray(thing[field.name]) }">
+  <div class="col-lg-2">
+    <span class="fileinput-button">
+       <img class="media-object sortable-handle" width="80" alt="thumbnail" style="display: inline; margin-bottom: 10px;" ng-src="{{file | thumbnail:'/img/80x80.gif'}}">
+    </span>
+  </div>
+  <div class="col-lg-10">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="file.name">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action... <span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right" ng-include="'/views/fields/menu.html'">
+        </ul>
+      </div><!-- /btn-group -->
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->

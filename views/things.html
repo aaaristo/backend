@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-xs-12">
+    <button ng-click="createSomething()" class="btn btn-info bot">Create something <span class="glyphicon glyphicon-star-empty"></span></button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default thing" ng-repeat="thing in things">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-3">
+            <img alt="thumbnail" ng-src="{{thing.thumbnail | nvl: '/img/80x80.gif'}}" width="80" >
+          </div>
+          <div class="col-xs-9">
+             <h2>{{thing.name}}</h2>
+          </div><!-- /.col-xs-6 -->
+        </div><!-- /.row -->
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-xs-5">
+          </div>
+          <div class="col-xs-7">
+            <button class="btn btn-danger" ng-click="remove(thing)" ng-disabled="thing.changing">Remove <span class="glyphicon glyphicon-trash"></span></button>
+            <a href="#/thing/{{thing._id}}" class="btn btn-info">Edit <span class="glyphicon glyphicon-edit"></span></a>
+          </div><!-- /.col-xs-6 -->
+        </div>
+      </div><!-- /.panel-footer -->
+    </div>
+    <div class="alert alert-info" ng-show="things&&!things.length">
+      <strong>There is nothing!</strong>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-7">
+        <button class="btn btn-outline" ng-click="loadMore()" ng-show="hasMore">Load more...</button>
+        <button class="btn btn-outline" ng-click="loadAll()" ng-show="hasMore">Load all...</button>
+  </div>
+</div>
