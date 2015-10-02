@@ -41,14 +41,14 @@
         margin: 0;
         opacity: 0;
         filter: alpha(opacity=0);
-        transform: translate(-300px, 0) scale(4);
+        /* transform: translate(-300px, 0) scale(4); */
         font-size: 23px;
         padding-right: 20px;
         direction: ltr;
         cursor: pointer;
         }
 
-span.twitter-typeahead { width: 100%; }      
+span.twitter-typeahead { width: 100%; }
 
     .tt-dropdown-menu {
       min-width: 160px;
