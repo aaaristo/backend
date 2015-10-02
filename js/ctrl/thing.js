@@ -173,21 +173,21 @@ function ($scope,$routeParams,$location,$sce,db,growl)
    $scope.fieldTemplate= function (field)
    {
       if (isFile($scope.thing[field.name])||field.type=='file')
-        return '/views/fields/file.html';
+        return '/backend/views/fields/file.html';
       else
       if (isThing($scope.thing[field.name])||field.type=='thing')
-        return '/views/fields/thing.html';
+        return '/backend/views/fields/thing.html';
       else
       if (isMarkdown($scope.thing[field.name])||field.type=='markdown')
-        return '/views/fields/markdown.html';
+        return '/backend/views/fields/markdown.html';
       else
       if (isDate($scope.thing[field.name])||field.type=='date')
-        return '/views/fields/date.html';
+        return '/backend/views/fields/date.html';
       else
       if (isNumber($scope.thing[field.name])||field.type=='number')
-        return '/views/fields/number.html';
+        return '/backend/views/fields/number.html';
       else
-        return '/views/fields/text.html';
+        return '/backend/views/fields/text.html';
    };
 
    var fieldType= $scope.fieldType= function (name)
