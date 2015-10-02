@@ -5,9 +5,9 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','u
        function ($routeProvider,growlProvider,$compileProvider)
        {
           $routeProvider
-              .when('/home', {controller: _home, templateUrl:'/views/home.html' })
-              .when('/thing/:id', { controller: _thing, templateUrl:'/views/thing.html' })
-              .when('/things', { controller: _things, templateUrl:'/views/things.html' })
+              .when('/home', {controller: _home, templateUrl:'/backend/views/home.html' })
+              .when('/thing/:id', { controller: _thing, templateUrl:'/backend/views/thing.html' })
+              .when('/things', { controller: _things, templateUrl:'/backend/views/things.html' })
               .otherwise({redirectTo:'/home'});
 
           growlProvider.globalTimeToLive(5000);
@@ -30,9 +30,9 @@ angular.module('backend', ['ngRoute','pouchdb','angular-growl','ui.bootstrap','u
                       return file.url;
                     else
                     if (_.contains(EXTENSIONS,ext=file.name.split('.').pop()))
-                      return '/img/ext/'+ext+'.png';
+                      return '/backend/img/ext/'+ext+'.png';
                     else
-                      return '/img/ext/blank.png';
+                      return '/backend/img/ext/blank.png';
                 };
 
             return function(value, replacer) {
