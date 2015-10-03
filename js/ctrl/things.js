@@ -7,7 +7,7 @@ function ($scope,$routeParams,$location,db,growl)
         {
             opts= opts || {};
 
-            var pageLimit= 3,
+            var pageLimit= 9,
                 options= {include_docs: true, descending: false };
 
             if (opts.startkey)
