@@ -11,7 +11,7 @@ var createServers = function(port, lrport) {
   });
  
   var app = express();
-  app.use(express.static(path.resolve('./')));
+  app.use('/backend/',express.static(path.resolve('./')));
   app.listen(port, function() {
     gutil.log('Listening on', port);
   });

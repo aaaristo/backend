@@ -1,5 +1,5 @@
-var _thing= ['$scope','$routeParams','$location','$sce','db','growl',
-function ($scope,$routeParams,$location,$sce,db,growl)
+var _thing= ['$scope','$rootScope','$routeParams','$location','$sce','db','growl',
+function ($scope,$rootScope,$routeParams,$location,$sce,db,growl)
 {
    $('#name').focus(); 
 
@@ -71,6 +71,22 @@ function ($scope,$routeParams,$location,$sce,db,growl)
         {
           growl.addSuccessMessage($scope.thing.name+' saved!');
 
+          var parent= $scope.createStack ? $scope.createStack.pop() : undefined;
+
+          if (parent)
+          {
+              $scope.thing._rev= response.rev;
+
+              if (parent.isArray)
+                  parent.thing[parent.field.name][parent.$index]= $scope.thing;
+              else
+                  parent.thing[parent.field.name]= $scope.thing;
+
+              $scope.thing= parent.thing;
+              $scope.readFieldNames();
+              $scope.createFields();
+          }
+          else
           if (selse)
             $location.path('thing/'+UUIDjs.create(4));
           else
@@ -297,6 +313,28 @@ function ($scope,$routeParams,$location,$sce,db,growl)
    $scope.md2HTML= function (val)
    {
       return $sce.trustAsHtml(markdown.toHTML(val));
+   };
+
+   $scope.createNew= function (field,$index)
+   {
+      var stack= $scope.createStack= $scope.createStack || [];
+
+      stack.push({ field: field,
+                   thing: $scope.thing,
+                 isArray: $scope.isArray($scope.thing[field.name]),
+                  $index: $index });
+
+      $scope.fields= [];
+      $scope.fieldNames= [];
+      $scope.thing= { _id: UUIDjs.create(4).hex };
+   };
+
+   $scope.backTo= function (thing)
+   {
+      $scope.createStack.splice($scope.createStack.indexOf(thing)+1);
+      $scope.thing= thing;
+      $scope.readFieldNames();
+      $scope.createFields();
    };
 
    $('#thumbnailfile').change(function (e)

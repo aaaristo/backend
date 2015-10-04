@@ -1,3 +1,11 @@
+<div class="row" ng-show="createStack&&createStack.length">
+  <div class="form-group" ng-repeat="elem in createStack" style="display: inline-block; margin-right: 10px;">
+     <a ng-click="backTo(elem.thing)">{{elem.thing.name}}</a>
+  </div>
+  <div class="form-group" style="display: inline-block; margin-right: 10px;">
+  {{thing.name}}
+  </div>
+</div>
 <div class="row" ng-show="thing">
   <div class="col-lg-1">
     <span class="fileinput-button">
